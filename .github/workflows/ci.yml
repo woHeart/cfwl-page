@@ -17,8 +17,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: 'npm'
+          node-version: 22.19.0
 
       # 3. Vue 代码规范检查
       - name: Lint Vue
