@@ -49,14 +49,10 @@ jobs:
           ruff check . --fix
           ruff format --check .
 
-        - name: Deploy via docker compose
-          uses: appleboy/ssh-action@v1.0.0
-          with:
-            host: ${{ secrets.SERVER_HOST }}
-            username: ${{ secrets.SERVER_USER }}
-            key: ${{ secrets.SERVER_SSH_KEY }}
-            script: |
-              cd /home/${{ secrets.SERVER_USER }}/cfwl-app
-              git pull origin main
-              docker compose up --build -d
-              docker image prune -f
+      - name: Deploy locally
+        run: |
+        cd D:\user-cfwl  # 这里改成你的项目所在根目录（包含 docker-compose.yml 的文件夹）
+        git pull origin main
+        docker compose up --build -d
+        docker image prune -f
+        shell: powershell  # 因为你是 Windows，需要用 PowerShell 执行
