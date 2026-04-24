@@ -51,8 +51,8 @@ jobs:
 
       - name: Deploy locally
         run: |
-        cd D:\user-cfwl  # 这里改成你的项目所在根目录（包含 docker-compose.yml 的文件夹）
-        git pull origin main
-        docker compose up --build -d
-        docker image prune -f
-        shell: powershell  # 因为你是 Windows，需要用 PowerShell 执行
+          cd D:\user-cfwl
+          git pull origin main
+          docker compose up --build -d
+          docker image prune -f
+          shell: powershell
