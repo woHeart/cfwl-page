@@ -1,0 +1,9 @@
+.bodyContainer {
+  display: flex;
+}
+
+/* 2. 中间内容容器：左右水平布局（Sidebar + Outlet） */
+.outletContainer {
+  flex: 1;
+  padding: 10px 35px 0 35px;
+}

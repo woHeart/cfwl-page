@@ -1,0 +1,14 @@
+.sectionContainer {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px 0 25px;
+    gap: 2.5%;
+}
+
+.sectionTitle {
+    width: 100%;
+    font-size: 32px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 12px;
+    margin-bottom: 10px;
+}

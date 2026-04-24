@@ -1,0 +1,92 @@
+# 指定 docker-compose 文件版本（最新稳定版）
+version: '3.8'
+
+services:
+
+  mongodb:
+    image: docker.1ms.run/library/mongo:6
+    container_name: mongodb 
+    restart: always
+    ports:
+    - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+      - mongo_config:/data/configdb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: secret
+    networks:
+      - app-network  
+
+  redis:
+    image: docker.1ms.run/library/redis:7-alpine
+    container_name: redis
+    restart: always
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    networks:
+      - app-network
+
+  express:
+    build: ./Express
+    container_name: express
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      MONGO_URL: mongodb://admin:secret@mongodb:27017/cfwl
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    depends_on:
+      - mongodb
+      - redis
+    networks:
+      - app-network
+
+  vue:
+    build: ./Vue
+    container_name: vue
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - express
+    networks:
+      - app-network
+
+  fastapi:
+    build: ./FastAPI
+    container_name: fastapi
+    restart: always
+    # ports:
+    #   - "8080:8000"
+    environment:
+      MONGO_URL: mongodb://admin:secret@mongodb:27017/cfwl
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    depends_on:
+      - mongodb
+      - redis
+    networks:
+      - app-network
+
+  react:
+    build: ./React
+    container_name: react
+    restart: always
+    ports:
+      - "60:80"
+    depends_on:
+      - fastapi
+    networks:
+      - app-network
+
+volumes:
+  mongo_data:
+  mongo_config:
+  redis_data:
+
+networks:
+  app-network:
+    driver: bridge

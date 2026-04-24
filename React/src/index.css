@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-custom-bg-soft;
+    @apply font-sans text-gray-900;
+  }
+
+  input,
+  textarea {
+    @apply w-full px-2 py-1 border border-gray-300 rounded-md outline-none transition-all;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  input:focus,
+  textarea:focus {
+    @apply border-blue-500 ring-2 ring-blue-200 ring-opacity-50;
+  }
+}

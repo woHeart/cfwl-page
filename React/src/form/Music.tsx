@@ -1,0 +1,35 @@
+import useZodForm from "@/hooks/from";
+import FormSection from "@/component/formsection/FormSection";
+import FormItem from "@/component/formitem/FormItem";
+
+import { postMusic } from "@/api/music";
+import { MusicSchema, type MusicData, musicFields } from "@/types/form/music";
+
+const Music: React.FC = () => {
+    const { register, formSubmit, control } = useZodForm(MusicSchema);
+
+    const sectionTitleMap = {
+        baseFields: '基础信息',
+    } as const;
+
+    const apiSubmit = async (data: MusicData) => {
+        await postMusic(data);
+    };
+
+    return (
+        <form onSubmit={formSubmit(apiSubmit)}>
+            {Object.entries(musicFields).map(([fieldKey, fields]) => (
+                <FormSection
+                    key={fieldKey}
+                    title={sectionTitleMap[fieldKey as keyof typeof sectionTitleMap]}
+                >
+                    <FormItem fields={fields} register={register} control={control}/>
+                </FormSection>
+            ))}
+
+            <button type="submit">提交</button>
+        </form>
+    );
+}
+
+export default Music;

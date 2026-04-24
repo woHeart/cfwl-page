@@ -1,0 +1,9 @@
+.formItemConfig {
+    width: 18%;
+    padding: 0 0 5px 0;
+}
+
+.formItemLabel {
+    display: block;
+    padding-bottom: 3px;
+}

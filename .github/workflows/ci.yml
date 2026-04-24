@@ -1,0 +1,62 @@
+name: page CI/CD
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  ci-cd:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 拉取代码
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. 安装 Node 环境
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      # 3. Vue 代码规范检查
+      - name: Lint Vue
+        run: |
+          cd Vue
+          npm ci
+          npm run lint --if-present
+
+      # 4. React 代码规范检查
+      - name: Lint React
+        run: |
+          cd React
+          npm ci
+          npm run lint --if-present
+
+      # 5. Express 代码规范检查
+      - name: Lint Express
+        run: |
+          cd Express
+          npm ci
+          npm run lint --if-present
+
+      # 6. FastAPI 代码规范 + 格式检查
+      - name: Check FastAPI (ruff + format)
+        run: |
+          cd Fastapi
+          pip install ruff
+          ruff check . --fix
+          ruff format --check .
+
+        - name: Deploy via docker compose
+          uses: appleboy/ssh-action@v1.0.0
+          with:
+            host: ${{ secrets.SERVER_HOST }}
+            username: ${{ secrets.SERVER_USER }}
+            key: ${{ secrets.SERVER_SSH_KEY }}
+            script: |
+              cd /home/${{ secrets.SERVER_USER }}/cfwl-app
+              git pull origin main
+              docker compose up --build -d
+              docker image prune -f
