@@ -9,38 +9,32 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      # 1. 拉取代码
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. 安装 Node 环境
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 22.19.0
 
-      # 3. Vue 代码规范检查
       - name: Lint Vue
         run: |
           cd Vue
           npm ci
           npm run lint --if-present
 
-      # 4. React 代码规范检查
       - name: Lint React
         run: |
           cd React
           npm ci
           npm run lint --if-present
 
-      # 5. Express 代码规范检查
       - name: Lint Express
         run: |
           cd Express
           npm ci
           npm run lint --if-present
 
-      # 6. FastAPI 代码规范 + 格式检查
       - name: Check FastAPI (ruff + format)
         run: |
           cd Fastapi
