@@ -74,7 +74,6 @@ router.beforeEach((to, from, next) => {
     next('/account');
     ElMessage.error('请先登录账号')
   } else {
-    // 否则允许跳转
     next();
   }
 });

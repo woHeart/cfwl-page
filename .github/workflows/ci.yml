@@ -24,6 +24,7 @@ jobs:
           cd Vue
           npm ci
           npm run lint --if-present
+          npx vitest run
 
       - name: Lint React
         run: |
