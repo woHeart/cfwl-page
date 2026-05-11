@@ -5,7 +5,7 @@ import Login from './Login.vue'
 import type * as UseAuthModule from './useAuth';
 
 vi.mock('./useAuth', async (importOriginal) => {
-  
+
   const actual = await importOriginal<typeof UseAuthModule>();
 
   return {
@@ -14,7 +14,9 @@ vi.mock('./useAuth', async (importOriginal) => {
   };
 });
 
-import { loginVerify } from './useAuth'
+import { useAuth } from './useAuth'
+
+const { loginVerify } = useAuth()
 
 describe('LoginForm 按钮测试', () => {
   beforeEach(() => {
