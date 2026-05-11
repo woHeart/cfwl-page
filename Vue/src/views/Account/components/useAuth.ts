@@ -26,6 +26,7 @@ export function useAuth() {
   };
 
   return {
+    router,
     formData,
     loginVerify
   };

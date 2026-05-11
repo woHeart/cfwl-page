@@ -2,21 +2,24 @@
 import { mount } from '@vue/test-utils'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import Login from './Login.vue'
-import type * as UseAuthModule from './useAuth';
+import { createRouter, createWebHistory } from 'vue-router'
 
-vi.mock('./useAuth', async (importOriginal) => {
+const mockLoginVerify = vi.fn()
 
-  const actual = await importOriginal<typeof UseAuthModule>();
+vi.mock('./useAuth', () => ({
+  useAuth: vi.fn(() => ({
+    formData: {
+      account: '',
+      password: '',
+    },
+    loginVerify: mockLoginVerify,
+  })),
+}))
 
-  return {
-    ...actual,
-    loginVerify: vi.fn(),
-  };
-});
-
-import { useAuth } from './useAuth'
-
-const { loginVerify } = useAuth()
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [{ path: '/', component: {} }],
+})
 
 describe('LoginForm 按钮测试', () => {
   beforeEach(() => {
@@ -24,15 +27,15 @@ describe('LoginForm 按钮测试', () => {
   })
 
   it('点击登录按钮应该调用 loginVerify,并传入表单引用', async () => {
-    const wrapper = mount(Login)
+    const wrapper = mount(Login, { global: { plugins: [router] } })
 
     const button = wrapper.find('.login-button')
 
     await button.trigger('click')
 
-    expect(loginVerify).toHaveBeenCalledTimes(1)
+    expect(mockLoginVerify).toHaveBeenCalledTimes(1)
 
-    expect(loginVerify).toHaveBeenCalledWith(
+    expect(mockLoginVerify).toHaveBeenCalledWith(
       expect.objectContaining({
         validate: expect.any(Function),
       })
