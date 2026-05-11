@@ -55,7 +55,7 @@ export default defineConfig({
     environment: 'jsdom',
     server: {
       deps: {
-        inline: ['element-plus'] // 内联处理 element-plus 的 CSS
+        inline: ['element-plus']
       }
     }
   },

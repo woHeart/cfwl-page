@@ -5,6 +5,7 @@ import Login from './Login.vue'
 import type * as UseAuthModule from './useAuth';
 
 vi.mock('./useAuth', async (importOriginal) => {
+  
   const actual = await importOriginal<typeof UseAuthModule>();
 
   return {

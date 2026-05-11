@@ -1,5 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { loginVerify } from './useAuth'
+import { useAuth } from './useAuth'
+
+const { loginVerify } = useAuth()
 
 const { mockPush } = vi.hoisted(() => {
   return { mockPush: vi.fn() }
