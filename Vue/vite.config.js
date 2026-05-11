@@ -1,6 +1,6 @@
 import { fileURLToPath, URL } from 'node:url'
 
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
@@ -53,6 +53,11 @@ export default defineConfig({
   ],
   test: {
     environment: 'jsdom',
+    server: {
+      deps: {
+        inline: ['element-plus'] // 内联处理 element-plus 的 CSS
+      }
+    }
   },
   resolve: {
     alias: {

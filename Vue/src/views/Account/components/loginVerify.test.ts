@@ -1,7 +1,16 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { router, loginVerify } from './useAuth'
+import { loginVerify } from './useAuth'
 
-// 把要 mock 的模块都放在 vi.mock 里
+const { mockPush } = vi.hoisted(() => {
+  return { mockPush: vi.fn() }
+})
+
+vi.mock('vue-router', () => ({
+  useRouter: () => ({
+    push: mockPush,
+  })
+}))
+
 vi.mock('@/apis/accout', () => ({
   accountLogin: vi.fn()
 }))
@@ -22,7 +31,7 @@ import { ElMessage, FormInstance } from 'element-plus'
 import { setToken } from '@/utils/auth'
 
 describe('loginVerify', () => {
-  // 模拟一个“验证通过”的表单引用
+
   const fakeRef = {
     validate: vi.fn().mockResolvedValue(undefined)
   } as unknown as FormInstance
@@ -44,7 +53,7 @@ describe('loginVerify', () => {
     expect(accountLogin).toHaveBeenCalled()
     expect(ElMessage.success).toHaveBeenCalledWith('登录成功')
     expect(setToken).toHaveBeenCalledWith(mockToken, 3600)
-    expect(router.push).toHaveBeenCalledWith('/')
+    expect(mockPush).toHaveBeenCalledWith('/')
   })
 
   it('请求返回非 200时,不提示成功、不存 token、不跳转', async () => {
@@ -57,7 +66,7 @@ describe('loginVerify', () => {
 
     expect(ElMessage.success).not.toHaveBeenCalled()
     expect(setToken).not.toHaveBeenCalled()
-    expect(router.push).not.toHaveBeenCalled()
+    expect(mockPush).not.toHaveBeenCalled()
     expect(consoleErrorSpy).toHaveBeenCalled()
 
     consoleErrorSpy.mockRestore()
