@@ -1,18 +1,9 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
-import { useRouter } from 'vue-router';
-import { accountLogin } from '@/apis/accout';
-import { setToken } from '@/utils/auth'
-import type { LoginFormData } from '@/types';
-import { ElMessage, type FormInstance, type FormRules, type FormItemRule } from 'element-plus';
+import { formData, loginVerify} from './useAuth'
+import { type FormInstance, type FormRules, type FormItemRule } from 'element-plus';
 
-const router = useRouter()
 const loginFormRef = ref<FormInstance | null>(null)
-
-const formData: LoginFormData = reactive({
-  account: '',
-  password: ''
-})
 
 const emit = defineEmits<{
   'change': []
@@ -44,17 +35,6 @@ const rules = reactive<FormRules<typeof formData>>({
   password: [{ validator: checkPassword, trigger: 'blur' }]
 })
 
-const loginVerify = async (ref: FormInstance | null): Promise<void> => {
-  try {
-    await ref?.validate();
-    const data = await accountLogin(formData)
-    ElMessage.success('登录成功')
-    setToken(data.token, 3600)
-    router.push("/")
-  } catch {
-    console.error("登录失败")
-  }
-}
 </script>
 
 <template>
