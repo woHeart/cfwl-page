@@ -1,12 +1,11 @@
 // LoginForm.test.ts
 import { mount } from '@vue/test-utils'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import Login from './Login.vue'
-import { createRouter, createWebHistory } from 'vue-router'
+import Login from '../Login.vue'
 
 const mockLoginVerify = vi.fn()
 
-vi.mock('./useAuth', () => ({
+vi.mock('../useAuth', () => ({
   useAuth: vi.fn(() => ({
     formData: {
       account: '',
@@ -16,18 +15,13 @@ vi.mock('./useAuth', () => ({
   })),
 }))
 
-const router = createRouter({
-  history: createWebHistory(),
-  routes: [{ path: '/', component: {} }],
-})
-
 describe('LoginForm 按钮测试', () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
 
   it('点击登录按钮应该调用 loginVerify,并传入表单引用', async () => {
-    const wrapper = mount(Login, { global: { plugins: [router] } })
+    const wrapper = mount(Login)
 
     const button = wrapper.find('.login-button')
 

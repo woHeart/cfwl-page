@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { useAuth } from './useAuth'
+import { useAuth } from '../useAuth'
 
 const { loginVerify } = useAuth()
 
