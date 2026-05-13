@@ -34,7 +34,7 @@ import { setToken } from '@/utils/auth'
 
 describe('loginVerify', () => {
 
-  const fakeRef = {
+  const fakeRef: FormInstance = {
     validate: vi.fn().mockResolvedValue(undefined)
   } as unknown as FormInstance
 
@@ -60,28 +60,29 @@ describe('loginVerify', () => {
 
   it('请求返回非 200时,不提示成功、不存 token、不跳转', async () => {
 
-    vi.mocked(accountLogin).mockRejectedValue(new Error('密码错误'))
-
-    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+    vi.mocked(accountLogin).mockRejectedValue(new Error('账号错误'))
 
     await loginVerify(fakeRef)
 
+    expect(fakeRef.validate).toHaveBeenCalledOnce()
+    expect(accountLogin).toHaveBeenCalled()
     expect(ElMessage.success).not.toHaveBeenCalled()
     expect(setToken).not.toHaveBeenCalled()
     expect(mockPush).not.toHaveBeenCalled()
-    expect(consoleErrorSpy).toHaveBeenCalled()
-
-    consoleErrorSpy.mockRestore()
   })
 
   it('表单校验没通过时，不发送登录请求', async () => {
 
-    const invalidRef = {
-      validate: vi.fn().mockRejectedValue(new Error('请填写用户名'))
+    const invalidRef: FormInstance = {
+      validate: vi.fn().mockRejectedValue(new Error('表单错误'))
     } as unknown as FormInstance
 
     await loginVerify(invalidRef)
 
+    expect(invalidRef.validate).toHaveBeenCalledOnce()
     expect(accountLogin).not.toHaveBeenCalled()
+    expect(ElMessage.success).not.toHaveBeenCalled()
+    expect(setToken).not.toHaveBeenCalled()
+    expect(mockPush).not.toHaveBeenCalled()
   })
 })
