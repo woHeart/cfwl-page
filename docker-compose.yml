@@ -59,8 +59,8 @@ services:
     build: ./FastAPI
     container_name: fastapi
     restart: always
-    # ports:
-    #   - "8080:8000"
+    ports:
+      - "8080:8000"
     environment:
       MONGO_URL: mongodb://admin:secret@mongodb:27017/cfwl
       REDIS_HOST: redis
