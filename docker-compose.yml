@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-
   mongodb:
     image: docker.1ms.run/library/mongo:6
     container_name: mongodb 
