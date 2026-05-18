@@ -1,4 +1,3 @@
-# 指定 docker-compose 文件版本（最新稳定版）
 version: '3.8'
 
 services:
