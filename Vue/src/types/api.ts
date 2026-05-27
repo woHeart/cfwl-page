@@ -147,6 +147,7 @@ export interface LoginResponse {
   account: string
   token: string
 }
+
 export interface EnrollResponse {
   account: string
 }

@@ -16,17 +16,17 @@ const changeForm = (): void => {
 
 const checkAccount:  FormItemRule['validator'] = (rule, value, callback) => {
   if (value.includes(' ')) {
-    callback(new Error('赶紧给劳资去掉空格！！！'))
+    return callback(new Error('赶紧给劳资去掉空格！！！'))
   } else if (value.length < 6 || value.length > 12) {
-    callback(new Error('账号？？？'))
+    return callback(new Error('账号？？？'))
   }
   callback()
 }
 const checkPassword:  FormItemRule['validator'] = (rule, value, callback) => {
   if (value.includes(' ')) {
-    callback(new Error('赶紧给劳资去掉空格！！！'))
+    return callback(new Error('赶紧给劳资去掉空格！！！'))
   } else if (value.length < 8 || value.length > 15) {
-    callback(new Error('密码？？？'))
+    return callback(new Error('密码？？？'))
   }
   callback()
 }
