@@ -1,4 +1,4 @@
-// LoginForm.test.ts
+// Login.test.ts
 import { mount, VueWrapper } from '@vue/test-utils'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import Login from '../Login.vue'

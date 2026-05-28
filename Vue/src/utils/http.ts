@@ -3,6 +3,7 @@ import router from '@/router'
 import { ElMessage } from 'element-plus'
 import type { ApiResponse } from '@/types'
 import { isTokenValid, removeToken } from '@/utils/auth'
+import { BusinessError, RequestTokenError } from './error'
 
 class HttpClient {
   private instance: AxiosInstance
@@ -33,17 +34,16 @@ class HttpClient {
         if (!isTokenValid()) {
           removeToken()
           router.push('/account')
-          ElMessage.error('token无效或已过期')
-          console.error('token无效或已过期',)
-          return Promise.reject(new Error('token无效或已过期'))
+          const error = new RequestTokenError('token无效或已过期')
+          ElMessage.error(error.message)
+          return Promise.reject(error)
         }
 
         headers.Authorization = `Bearer ${sessionStorage.getItem('token')}`
         return config
       },
       (error: AxiosError) => {
-        ElMessage.error(error.message)
-        console.error('请求拦截器的失败回调捕获到了异常', error)
+        ElMessage.error("请求异常，请稍后再试")
         return Promise.reject(error)
       },
     )
@@ -54,14 +54,13 @@ class HttpClient {
         if (data.code === '200') {
           return data.data
         } else {
-          ElMessage.error(data.msg)
-          console.error(data.msg)
-          return Promise.reject(new Error(data.msg))
+          const error = new BusinessError(data.msg || '请求失败', data.code);
+          ElMessage.error(error.message)
+          return Promise.reject(error);
         }
       },
       (error: AxiosError) => {
-        ElMessage.error(error.message)
-        console.error('响应拦截器的失败回调捕获到了异常', error)
+        ElMessage.error("响应异常，请稍后再试")
         return Promise.reject(error)
       },
     )
