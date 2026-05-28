@@ -1,8 +1,10 @@
 // src/apis/__tests__/accountLogin.test.ts
-import { describe, it, expect, beforeAll, afterEach, afterAll } from 'vitest'
+import { describe, it, expect, beforeAll, afterEach, afterAll, vi } from 'vitest'
 import { accountLogin } from '@/apis/accout'
 import { http, HttpResponse } from 'msw'
 import { server } from '@/__tests__/mocks/server'
+
+vi.spyOn(console, 'error').mockImplementation(() => {})
 
 // 手动启动/重置/关闭 MSW server
 beforeAll(() => server.listen())

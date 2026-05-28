@@ -1,6 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { useAuth } from '../useAuth'
 
+vi.spyOn(console, 'error').mockImplementation(() => { })
+
 const { loginVerify } = useAuth()
 
 const { mockPush } = vi.hoisted(() => {
