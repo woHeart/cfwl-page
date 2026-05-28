@@ -35,8 +35,6 @@ const rules = reactive<FormRules<typeof formData>>({
   account: [{ validator: checkAccount, trigger: 'blur' }],
   password: [{ validator: checkPassword, trigger: 'blur' }]
 })
-
-defineExpose({ formData })
 </script>
 
 <template>
