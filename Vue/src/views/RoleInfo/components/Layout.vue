@@ -6,33 +6,15 @@ import Inherit from './Inherit.vue'
 import Protrait from './Protrait.vue';
 import Incantation from './Incantation.vue';
 
-import { ref } from 'vue';
-import { onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { computed } from 'vue';
+import type { RoleBase, RoleDetailed, RoleImprove, RoleSkill } from '@/types';
 
-import { getRoleDetailed } from '@/apis/detailed';
-import type { RoleBase, RoleImprove, RoleSkill } from '@/types';
-
-const baseInfo = ref<RoleBase | null>(null);
-const improveInfo = ref<RoleImprove | null>(null);
-const skillInfo = ref<RoleSkill | null>(null);
-
-const getRoleDetailedFn = async (rolename: string): Promise<void> => {
-  try {
-    const data = await getRoleDetailed(rolename);
-    baseInfo.value = data.baseData;
-    improveInfo.value = data.improveData;
-    skillInfo.value = data.skillData;
-  } catch (error) {
-    console.log('角色详情数据获取失败', error);
-  }
-}
-
-onMounted(() => {
-  const route = useRoute();
-  const rolename = route.query.name as string;
-  getRoleDetailedFn(rolename);
-})
+const { roledetailed } = defineProps<{
+  roledetailed: RoleDetailed
+}>()
+const baseInfo = computed((): RoleBase => roledetailed.baseData);
+const improveInfo = computed((): RoleImprove => roledetailed.improveData);
+const skillInfo = computed((): RoleSkill => roledetailed.skillData);
 </script>
 
 <template>

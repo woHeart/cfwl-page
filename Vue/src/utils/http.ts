@@ -67,7 +67,7 @@ class HttpClient {
   }
 
   // 请求方法
-  public get<T, P>(url: string, params?: P): Promise<T> {
+  public get<T, P = undefined>(url: string, params?: P): Promise<T> {
     return this.instance.get(url, { params })
   }
 

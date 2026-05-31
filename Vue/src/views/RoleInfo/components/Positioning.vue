@@ -29,8 +29,8 @@ const typeInjury: ImgMap = {'现实创伤': Reality, '精神创伤': Spirit}
     <div class="top-box" v-if="characterData">
       <img class="attribute" :src="careerList[career]" alt="属性" />
       <div class="name">
-        <div class="chinese">{{ characterData.chinese }}</div>
-        <div class="english">{{ characterData.english }}</div>
+        <div class="chinese">{{ characterData?.chinese }}</div>
+        <div class="english">{{ characterData?.english }}</div>
       </div>
     </div>
     <div class="bottom-box">
