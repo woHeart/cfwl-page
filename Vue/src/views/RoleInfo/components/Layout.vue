@@ -12,6 +12,7 @@ import type { RoleBase, RoleDetailed, RoleImprove, RoleSkill } from '@/types';
 const { roledetailed } = defineProps<{
   roledetailed: RoleDetailed
 }>()
+
 const baseInfo = computed((): RoleBase => roledetailed.baseData);
 const improveInfo = computed((): RoleImprove => roledetailed.improveData);
 const skillInfo = computed((): RoleSkill => roledetailed.skillData);
