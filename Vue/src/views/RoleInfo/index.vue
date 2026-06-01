@@ -1,12 +1,12 @@
 <template>
   <ApiFallBack :asyncFn="getRoleDetailed" :params="rolename">
     <template #loading>
-      <div class="loading">
+      <div class="load-card">
         <h1>加载中...</h1>
       </div>
     </template>
     <template #error="{retry}">
-      <div class="error">
+      <div class="error-card">
         <h1>请求失败...</h1>
         <button @click="retry">重试</button>
       </div>
@@ -30,10 +30,15 @@ const rolename = route.query.name as string;
 </script>
 
 <style scoped>
-.loading .error {
+.load-card, .error-card {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100%;
+}
+
+.error-card h1 {
+  margin-bottom: 5px;
 }
 </style>
