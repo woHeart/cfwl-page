@@ -5,13 +5,13 @@
         <h1>加载中...</h1>
       </div>
     </template>
-    <template #error="{retry}">
+    <template #error="{ retry }">
       <div class="error-card">
         <h1>请求失败...</h1>
-        <button @click="retry">重试</button>
+        <el-button type="primary" round @click="retry">重试</el-button>
       </div>
     </template>
-    <template #default="{data}">
+    <template #default="{ data }">
       <div v-if="data">
         <Layout :roleDetailed="data" />
       </div>
@@ -30,7 +30,8 @@ const rolename = route.query.name as string;
 </script>
 
 <style scoped>
-.load-card, .error-card {
+.load-card,
+.error-card {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -38,7 +39,12 @@ const rolename = route.query.name as string;
   height: 100%;
 }
 
+h1 {
+  font-family: '宋体';
+  font-size: 20px;
+}
+
 .error-card h1 {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 </style>
