@@ -29,7 +29,7 @@ const route = useRoute();
 const rolename = route.query.name as string;
 </script>
 
-<style scoped lang="less">
+<style scoped>
 .loading .error {
   display: flex;
   align-items: center;
