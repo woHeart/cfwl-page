@@ -7,15 +7,15 @@ import Protrait from './Protrait.vue';
 import Incantation from './Incantation.vue';
 
 import { computed } from 'vue';
-import type { RoleBase, RoleDetailed, RoleImprove, RoleSkill } from '@/types';
+import type { RoleBase, RoleImprove, RoleSkill, RoleDetailed } from '@/types';
 
-const { roledetailed } = defineProps<{
-  roledetailed: RoleDetailed
+const props = defineProps<{
+  roleDetailed: RoleDetailed
 }>()
 
-const baseInfo = computed((): RoleBase => roledetailed.baseData);
-const improveInfo = computed((): RoleImprove => roledetailed.improveData);
-const skillInfo = computed((): RoleSkill => roledetailed.skillData);
+const baseInfo = computed<RoleBase>(() => props.roleDetailed.baseData);
+const improveInfo = computed<RoleImprove>(() => props.roleDetailed.improveData);
+const skillInfo = computed<RoleSkill>(() => props.roleDetailed.skillData);
 </script>
 
 <template>
@@ -24,7 +24,7 @@ const skillInfo = computed((): RoleSkill => roledetailed.skillData);
     <div class="role-info">
       <div class="role-info-text">
         <Positioning :characterData="baseInfo" />
-        <Profile :RoleBaseDic="baseInfo?.infoDictionary" />
+        <Profile :RoleBaseDic="baseInfo.infoDictionary" />
       </div>
       <div class="role-info-img">
         <Img :roleImgData="baseInfo" />

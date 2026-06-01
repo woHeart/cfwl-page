@@ -36,6 +36,7 @@ class HttpClient {
           router.push('/account')
           const error = new RequestTokenError('token无效或已过期')
           ElMessage.error(error.message)
+          console.error(error)
           return Promise.reject(error)
         }
 
@@ -43,7 +44,6 @@ class HttpClient {
         return config
       },
       (error: AxiosError) => {
-        ElMessage.error("请求异常，请稍后再试")
         return Promise.reject(error)
       },
     )
@@ -54,13 +54,13 @@ class HttpClient {
         if (data.code === '200') {
           return data.data
         } else {
-          const error = new BusinessError(data.msg || '请求失败', data.code);
+          const error = new BusinessError(data.msg, data.code);
           ElMessage.error(error.message)
+          console.error(error)
           return Promise.reject(error);
         }
       },
       (error: AxiosError) => {
-        ElMessage.error("响应异常，请稍后再试")
         return Promise.reject(error)
       },
     )

@@ -1,4 +1,6 @@
 <script setup lang="ts" generic="T, D = undefined">
+import { handleCatchError } from '@/utils/error';
+import { AxiosError } from 'axios';
 import { onMounted, ref } from 'vue'
 
 const { asyncFn, params } = defineProps<{
@@ -7,7 +9,7 @@ const { asyncFn, params } = defineProps<{
 }>()
 
 const data = ref<T | null>(null)
-const error = ref<Error | null>(null)
+const error = ref<Error | AxiosError | null>(null)
 const loading = ref<boolean>(false)
 
 async function execute() {
@@ -19,8 +21,9 @@ async function execute() {
     } else {
       data.value = await (asyncFn as (data: D) => Promise<T>)(params)
     }
-  } catch (err) {
-    error.value = err as Error
+  } catch (err: unknown) {
+    error.value = err as Error | AxiosError
+    handleCatchError(error.value)
   } finally {
     loading.value = false
   }
@@ -33,6 +36,6 @@ onMounted(() => {
 
 <template>
   <slot v-if="loading" name="loading" />
-  <slot v-else-if="error" name="error" :error="error" :retry="execute" />
+  <slot v-else-if="error" name="error" :retry="execute" />
   <slot v-else :data="data" />
 </template>
