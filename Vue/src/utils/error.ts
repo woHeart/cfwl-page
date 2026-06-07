@@ -17,7 +17,7 @@ export class RequestTokenError extends Error {
   }
 }
 
-export function handleCatchError(error: unknown): void {
+export function handleCatchError(error: Error | AxiosError): void {
   if (error instanceof AxiosError) {
     if (error.response) {
       const msg = error.response.status >= 500 ? '服务器异常' : '请求失败';

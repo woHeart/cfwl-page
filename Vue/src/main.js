@@ -27,4 +27,9 @@ app.use(lazyPlugin, {
   error: new URL('@/assets/images/error.png', import.meta.url).href
 })
 
+app.config.errorHandler = (err, instance, info) => {
+  console.error(`错误边界捕获到异常: ${info}, 错误信息: ${err}`)
+  ElMessage.error('发生错误，请重试')
+}
+
 app.mount('#app')
