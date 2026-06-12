@@ -75,7 +75,7 @@ app.use(function (err, req, res, next) {
   logError(err, req);
 
   if (err instanceof HttpError) {
-    return json(err.toJSON())
+    return res.status(err.status).json(err.toJSON())
   }
 
   return res.status(500).json({

@@ -44,6 +44,8 @@ class HttpClient {
         return config
       },
       (error: AxiosError) => {
+        console.error(error)
+        ElMessage.error("请求失败，请稍后再试！")
         return Promise.reject(error)
       },
     )
@@ -53,15 +55,24 @@ class HttpClient {
         const { data } = response
         if (data.code === '200') {
           return data.data
-        } else {
-          const error = new BusinessError(data.msg, data.code);
-          ElMessage.error(error.message)
-          console.error(error)
-          return Promise.reject(error);
         }
       },
-      (error: AxiosError) => {
-        return Promise.reject(error)
+      <T>(error: AxiosError) => {
+        if (error.response) {
+          const { data } = error.response as AxiosResponse<ApiResponse<T>>
+          const err = new BusinessError(data.msg, data.code)
+          console.error(err)
+          ElMessage.error(err.message)
+          return Promise.reject(err)
+        } else if (error.request) {
+          console.error(error)
+          ElMessage.error('网络连接失败，请检查网络')
+          return Promise.reject(error)
+        } else {
+          console.error(error)
+          ElMessage.error(error.message)
+          return Promise.reject(error)
+        }
       },
     )
   }

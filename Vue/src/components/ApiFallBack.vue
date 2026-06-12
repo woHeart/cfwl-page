@@ -1,5 +1,4 @@
 <script setup lang="ts" generic="T, D = undefined">
-import { handleCatchError } from '@/utils/error';
 import { AxiosError } from 'axios';
 import { onMounted, ref } from 'vue'
 
@@ -23,7 +22,6 @@ async function execute() {
     }
   } catch (err: unknown) {
     error.value = err as Error | AxiosError
-    handleCatchError(error.value)
   } finally {
     loading.value = false
   }
