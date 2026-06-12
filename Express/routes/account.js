@@ -19,7 +19,7 @@ router.post("/enroll", async (req, res, next) => {
   try {
     const { account, password } = req.body;
     if (await AccountModel.findOne({ account })) {
-      throw new HttpError(409, "409", "账号已存在", null);
+      throw new HttpError(409, "409", "账号已存在");
     }
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     const createAccount = await AccountModel.create({
@@ -44,11 +44,7 @@ router.post("/login", async (req, res, next) => {
     const loginAccount = await AccountModel.findOne({ account });
     // console.log('完整执行阶段：', inspect(loginAccount, { depth: null, colors: true }));
     if (!loginAccount) {
-      return res.json({
-        code: "401",
-        msg: "账号或密码错误",
-        data: null,
-      });
+      throw new HttpError(401, "401", "账号或密码错误");
     }
     const consistency = await bcrypt.compare(password, loginAccount.password);
     if (consistency) {
@@ -62,11 +58,7 @@ router.post("/login", async (req, res, next) => {
         data: { ...safeDate, token },
       });
     }
-    return res.json({
-      code: "401",
-      msg: "账号或密码错误",
-      data: null,
-    });
+    throw new HttpError(401, "401", "账号或密码错误");
   } catch (err) {
     next(err);
   }
