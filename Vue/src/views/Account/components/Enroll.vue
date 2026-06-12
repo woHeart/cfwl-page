@@ -70,6 +70,7 @@ const EnrollVerify = async (ref: FormInstance | null): Promise<void> => {
     enrollSuccess();
   } catch {
     console.error("注册失败")
+
   }
 }
 </script>
