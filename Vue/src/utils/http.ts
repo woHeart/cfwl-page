@@ -11,7 +11,7 @@ class HttpClient {
 
   constructor() {
     this.instance = axios.create({
-      baseURL: 'http://localhost:3000',
+      baseURL: '/vue',
       timeout: 5000,
     })
     this.noTokenPatterns = ['/user/login', '/user/enroll', '/music', '/wordbanner']
