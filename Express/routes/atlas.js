@@ -3,7 +3,7 @@ const router = express.Router();
 //导入模块
 import AtlasModel from '../models/AtlasModel.js'
 
-router.get('/', async (req, res) => {
+router.get('/', async (req, res, next) => {
     try {
         const { page } = req.query
         const limit = 16;
@@ -19,12 +19,7 @@ router.get('/', async (req, res) => {
             }
         })
     } catch (err) {
-        res.json({
-            code: '500',
-            msg: '获取失败',
-            data: null
-        })
-        console.log(err);
+        next(err)
     }
 });
 

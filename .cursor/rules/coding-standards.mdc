@@ -1,0 +1,28 @@
+# 编码规范
+
+## TypeScript
+- 项目默认使用 TypeScript，不要使用纯 JavaScript
+- 所有新代码必须用 TS 编写
+- 开启严格模式 (`strict: true`)，禁止使用 `any` 类型
+
+## 代码格式
+- 缩进：2 个空格
+- 行尾不加分号
+- 行末不要有多余空格
+
+## 命名规范
+- 变量/函数/参数：小驼峰 (camelCase)
+- 类/接口/类型/枚举：大驼峰 (PascalCase)
+
+### React 规范
+- 使用 React 18 稳定版本
+- 组件使用函数式组件，禁止使用类组件
+- 使用 React Hooks，遵循 Hooks 规则
+- JSX编码风格
+- `useEffect`/`useCallback`/`useMemo` 需要正确声明依赖项
+- Props 必须使用 TypeScript 定义类型和默认值
+- 列表渲染必须使用 `key` 属性
+
+## 代码质量
+- 配置 ESLint + Prettier 自动检查和格式化
+- 配置 Husky + lint-staged 在提交前自动检查

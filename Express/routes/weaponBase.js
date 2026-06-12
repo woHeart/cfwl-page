@@ -3,7 +3,7 @@ const router = express.Router();
 //导入模块
 import WeaponBaseModel from '../models/WeaponBaseModel.js';
 
-router.get('/', async (req, res) => {
+router.get('/', async (req, res, next) => {
     try {
         const results = await WeaponBaseModel.find({}, { _id: 0 });
 
@@ -13,12 +13,7 @@ router.get('/', async (req, res) => {
             data: results
         })
     } catch (err) {
-        res.json({
-            code: '500',
-            msg: '获取失败',
-            data: null
-        })
-        console.log(err);
+        next(err);
     }
 });
 

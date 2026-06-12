@@ -5,7 +5,7 @@ import RoleBaseModel from "../models/RoleBaseModel.js";
 import redisClient from "../redis/redis.js";
 import RedisDistributedLock from "../utils/redis_lock.js";
 
-router.get("/", async (req, res) => {
+router.get("/", async (req, res, next) => {
   const lockKey = "role:base:lock";
   const requestId = RedisDistributedLock.generateRequestId();
   const expireMs = 30000;
@@ -35,12 +35,7 @@ router.get("/", async (req, res) => {
       data: results,
     });
   } catch (err) {
-    res.json({
-      code: "500",
-      msg: "获取失败",
-      data: null,
-    });
-    console.log(err);
+    next(err);
   } finally {
     await RedisDistributedLock.releaseLock(redisClient, lockKey, requestId);
     console.log("删除锁成功！");

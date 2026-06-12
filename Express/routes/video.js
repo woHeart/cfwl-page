@@ -3,7 +3,7 @@ const router = express.Router();
 //导入模块
 import VideoModel from '../models/VideoModel.js';
 
-router.get('/', async (req, res) => {
+router.get('/', async (req, res, next) => {
     try {
         const results = await VideoModel.find({}, {  _id: 0 })
         return res.json({
@@ -12,12 +12,7 @@ router.get('/', async (req, res) => {
             data: results[0].video
         })
     } catch (err) {
-        res.json({
-            code: '500',
-            msg: '获取失败',
-            data: null
-        })
-        console.log(err);
+        next(err)
     }
 });
 
