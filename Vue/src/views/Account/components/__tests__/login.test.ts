@@ -14,7 +14,7 @@ const mockFormData = reactive<LoginFormData>({
 const mockLoginVerify = vi.fn()
 
 vi.mock('../useAuth', () => ({
-  useAuth: vi.fn(() => ({
+  useLogin: vi.fn(() => ({
     formData: mockFormData,
     loginVerify: mockLoginVerify,
   })),
