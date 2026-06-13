@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
-import { useAuth } from './useAuth'
+import { useLogin } from './useAuth'
 import { type FormInstance, type FormRules, type FormItemRule } from 'element-plus';
 
-const { formData, loginVerify } = useAuth()
+const { formData, loginVerify } = useLogin()
 const loginFormRef = ref<FormInstance | null>(null)
 
 const emit = defineEmits<{

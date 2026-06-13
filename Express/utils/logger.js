@@ -71,7 +71,7 @@ export const logError = (err, req = null) => {
 
   const logMessage = req
     ? `[${errorInfo.method} ${errorInfo.url}] Status: ${errorInfo.status} - ${errorInfo.message}`
-    : `${errorInfo.message}`;
+    : `Status: ${errorInfo.status} - ${errorInfo.message}`;
 
   // 根据错误类型选择不同的日志记录器
   if (isHttpError(err)) {

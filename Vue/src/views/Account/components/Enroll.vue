@@ -1,17 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-import { accountEnroll } from '@/apis/accout'
-import { EnrollFormData } from '@/types';
-import { ElMessage, type FormInstance, type FormRules, type FormItemRule  } from 'element-plus';
-
-const EnrollFormRef = ref<FormInstance | null>(null)
-const checkAgree = ref<boolean>(false)
-
-const formData: EnrollFormData = reactive({
-  account: '',
-  password: '',
-  confirmPassword: ''
-})
+import { type FormInstance, type FormRules, type FormItemRule  } from 'element-plus';
+import { useEnroll } from '@/views/Account/components/useAuth'
 
 const emit = defineEmits<{
   'success': []
@@ -24,6 +14,10 @@ const enrollSuccess = (): void => {
 const openDrawer = (): void => {
   emit('protocol')
 }
+
+const { checkAgree, formData, enrollVerify } = useEnroll(enrollSuccess)
+
+const EnrollFormRef = ref<FormInstance | null>(null)
 
 const checkAccount: FormItemRule['validator'] = (rule, value, callback) => {
   if (value.includes(' ')) {
@@ -57,22 +51,6 @@ const rules = reactive<FormRules<typeof formData>>({
   password: [{ validator: checkPassword, trigger: 'blur' }],
   confirmPassword: [{ validator: checkConfirmPassword, trigger: 'blur' }]
 })
-
-const EnrollVerify = async (ref: FormInstance | null): Promise<void> => {
-  if (!checkAgree.value) {
-    ElMessage.warning('您未同意用户协议');
-    return
-  }
-  try {
-    await ref?.validate();
-    await accountEnroll(formData);
-    ElMessage.success('注册成功');
-    enrollSuccess();
-  } catch {
-    console.error("注册失败")
-
-  }
-}
 </script>
 
 <template>
@@ -87,7 +65,7 @@ const EnrollVerify = async (ref: FormInstance | null): Promise<void> => {
       <el-input style="height: 42px;" v-model="formData.confirmPassword" placeholder="确认您的密码" show-password />
     </el-form-item>
     <el-form-item>
-      <el-button class="enroll-button" round @click="EnrollVerify(EnrollFormRef)">注册</el-button>
+      <el-button class="enroll-button" round @click="enrollVerify(EnrollFormRef)">注册</el-button>
     </el-form-item>
     <ul class="agree">
       <li><el-checkbox v-model="checkAgree" /></li>

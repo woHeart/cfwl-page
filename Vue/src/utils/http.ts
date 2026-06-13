@@ -35,8 +35,8 @@ class HttpClient {
           removeToken()
           router.push('/account')
           const error = new RequestTokenError('token无效或已过期')
-          ElMessage.error(error.message)
           console.error(error)
+          ElMessage.error(error.message)
           return Promise.reject(error)
         }
 
@@ -70,7 +70,7 @@ class HttpClient {
           return Promise.reject(error)
         } else {
           console.error(error)
-          ElMessage.error(error.message)
+          ElMessage.error("请求失败，请稍后再试！")
           return Promise.reject(error)
         }
       },
